@@ -1,10 +1,10 @@
-[Guestbook 튜토리얼](http://www.luminusweb.net/docs/guestbook.md)은 내용 설명과 따라하는 부분이 섞여 있어 무작정 따라하기에는 약간 어렵다. [Guestbook 튜토리얼](http://www.luminusweb.net/docs/guestbook.md)에서 무작정 따라할 부분만 따로 뽑아 수정함.
+[Guestbook 튜토리얼](http://www.luminusweb.net/docs/guestbook.md)은 내용 설명과 따라하는 부분이 섞여 있어 무작정 따라하기식으로 시작하기에는 약간 복잡하다. [Guestbook 튜토리얼](http://www.luminusweb.net/docs/guestbook.md)에서 따라할 부분만 따로 뽑아 수정하였다.
 
 ## Guestbook Application
 
 ### Installing Leiningen
 
-Leiningen 없는 분은 [Leiningen](http://leiningen.org/) 의 내용대로 설치. 
+Leiningen 없는 사람은 [Leiningen](http://leiningen.org/) 의 내용대로 설치. 
 
 ### Creating a new application
 
@@ -15,23 +15,7 @@ cd guestbook
 
 ### Creating the Database
 
-`migrations/<date>-add-users-table.up.sql` 수정.
-
-수정전:
-
-```sql
-CREATE TABLE users
-(id VARCHAR(20) PRIMARY KEY,
- first_name VARCHAR(30),
- last_name VARCHAR(30),
- email VARCHAR(30),
- admin BOOLEAN,
- last_login TIME,
- is_active BOOLEAN,
- pass VARCHAR(100));
-```
-
-수정후: 
+`migrations/<date>-add-users-table.up.sql` 을 다음처럼 수정
 
 ```sql
 CREATE TABLE guestbook
@@ -49,30 +33,7 @@ lein ragtime migrate
 
 ### Accessing The Database
 
-`resources/sql/queries.sql` 수정.
-
-수정전:
-
-```sql
---name: create-user!
--- creates a new user record
-INSERT INTO users
-(id, first_name, last_name, email, pass)
-VALUES (:id, :first_name, :last_name, :email, :pass)
-
---name: update-user!
--- update an existing user record
-UPDATE users
-SET first_name = :first_name, last_name = :last_name, email = :email
-WHERE id = :id
-
--- name: get-user
--- retrieve a used given the id.
-SELECT * FROM users
-WHERE id = :id
-```
-
-수정후:
+`resources/sql/queries.sql` 을 다음처럼 수정.
 
 ```sql
 --name:save-message!
@@ -101,11 +62,7 @@ SELECT * from guestbook
 웹 브라우저로 실행 결과 확인:
 [http://localhost:3000](http://localhost:3000)
 
-이미 3000 포트 사용하고 있는 경우 포트를 바꿔서 실행하려면:
-
-```
-lein run 8000
-```
+루미너스의 기본 페이지가 표시된다. 이 페이지를 방명록으로 바꾸자.
 
 ### Creating Pages and Handling Form Input
 
@@ -200,7 +157,7 @@ lein run 8000
 {% endblock %}
 ```
 
-`resources/css/screen.css` 를 다음처럼 수정
+`resources/public/css/screen.css` 를 다음처럼 수정
 
 ```
 body {
@@ -244,37 +201,28 @@ form, .error {
 	position: relative;
   background: white;
 }
-
 ```
 
-브라우저 페이지 재로딩해서 결과 확인
+브라우저 페이지 재로딩해서 결과 확인. 
+
+방명록이 보인다. Name, Message를 입력하여 글이 써지는 것을 확인하자.
 
 ### 네비게이션 메뉴 디자인 깨진 문제 수정
 
-튜토리얼대로 하면 네비게이션 메뉴 디자인이 약간 깨진다. 
+튜토리얼대로 하면 네비게이션 디자인이 약간 깨진다. 
 
-`resources/css/screen.css` 의 일부를 다시 수정한다.
+이를 고치려면 `resources/public/css/screen.css` 의 일부를 다시 수정한다.
 
 수정전:
 
 ```
 li {
-  position: relative;
-  font-size: 16px;
-  padding: 5px;
-  border-bottom: 1px dotted #ccc;
-}
 ```
 
 수정후:
 
 ```
-.messages li{
-  position: relative;
-  font-size: 16px;
-  padding: 5px;
-  border-bottom: 1px dotted #ccc;
-}
+.messages li {
 ```
 
-브라우저 페이지 재로딩해서 결과 확인
+브라우저 페이지 재로딩해서 결과 확인. 끝!
