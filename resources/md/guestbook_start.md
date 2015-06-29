@@ -28,7 +28,7 @@ CREATE TABLE guestbook
 프로젝트 root 에서 다음 실행.
 
 ```
-lein ragtime migrate
+lein run migrate
 ```
 
 ### Accessing The Database
@@ -46,6 +46,12 @@ VALUES (:name, :message, :timestamp)
 -- selects all available messages
 SELECT * from guestbook
 ```
+
+### DB 파일 위치 수정
+
+`src/guestbook/db/core.clj` 에서 `"/site.db"` 를 `"/guestbook_dev.db"` 로 바꾼다.
+
+현재 [Guestbook 튜토리얼](http://www.luminusweb.net/docs/guestbook.md)에는 이 내용이 빠져 있다. 수정하지 않으면 실행시 DB 테이블이 없다는 에러가 생긴다.
 
 ### Running the Application
 
